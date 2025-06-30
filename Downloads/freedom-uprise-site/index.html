@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Freedom Uprise</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Orbitron', sans-serif;
+      overflow: hidden;
+      background: black;
+    }
+
+    .startup-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      color: #0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 1000;
+      animation: flicker 1s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 1; }
+      100% { opacity: 0.85; }
+    }
+
+    .briefing {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      white-space: pre;
+      border-right: 2px solid #0f0;
+      overflow: hidden;
+      width: 22ch;
+      animation: typing 3s steps(22), blink .5s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 22ch; }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    .countdown {
+      font-size: 1rem;
+      margin-top: 1rem;
+      color: #0f0;
+    }
+
+    .video-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 2rem;
+      opacity: 0;
+      animation: fadeIn 1.2s ease forwards;
+      animation-delay: 5s;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      letter-spacing: 3px;
+    }
+
+    p {
+      font-size: 1.3rem;
+      max-width: 700px;
+      margin: 1rem auto 2rem;
+      color: #ccc;
+    }
+
+    .cta {
+      padding: 1rem 2rem;
+      background-color: #e50914;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.3s ease;
+    }
+
+    .cta:hover {
+      background-color: #b20710;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="startup-screen" id="startup">
+    <div class="briefing">Brief #4096: Tactical Entry Confirmed</div>
+    <div class="countdown" id="countdownText">Initializing<span id="dots">.</span></div>
+    <div style="margin-top: 1rem; font-size: 0.9rem;">Mission ID: <span id="missionId">####</span></div>
+    <audio id="startupSound" autoplay>
+      <source src="startup-beep.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <video autoplay muted loop class="video-bg">
+    <source src="video.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+
+  <div class="overlay">
+    <h1>FREEDOM UPRISE</h1>
+    <p>The system wasn’t built for us. So we built our own. Welcome to the rebellion.</p>
+    <button class="cta" onclick="location.href='main.html'">Enter Mission Command</button>
+    <footer>&copy; 2025 Freedom Uprise. All Rights Reserved.</footer>
+  </div>
+
+  <script>
+    const missionId = Math.floor(100000 + Math.random() * 900000);
+    document.getElementById("missionId").textContent = missionId;
+
+    const dotsEl = document.getElementById("dots");
+    let dotCount = 1;
+    const dotInterval = setInterval(() => {
+      dotsEl.textContent = '.'.repeat(dotCount);
+      dotCount = dotCount === 3 ? 1 : dotCount + 1;
+    }, 400);
+
+    document.getElementById("startupSound").play().catch(() => {});
+
+    setTimeout(() => {
+      clearInterval(dotInterval);
+      document.getElementById("startup").style.display = "none";
+    }, 5000);
+  </script>
+
+</body>
+</html>
